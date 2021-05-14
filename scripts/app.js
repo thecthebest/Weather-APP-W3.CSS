@@ -63,4 +63,12 @@ cityForm.addEventListener("submit", (e) => {
       .catch();
     // Set local storage
     localStorage.setItem("city", city);
+    // Set local storage
+    localStorage.setItem("city", city);
 });
+// Get city name from the local storage if it has any
+if (localStorage.getItem("city")) {
+    updateCity(localStorage.getItem("city"))
+    .then((data) => {updateUI(data)})
+    .catch((err) => {console.log(err);});
+}
