@@ -2,11 +2,11 @@
 const cityForm = document.querySelector(".change-location");
 // Handle to card
 const card = document.querySelector(".card");
-// Handle to details
+// Handle for weather information
 const details = document.querySelector(".details");
-// Image
+// Handle to the image
 const time = document.querySelector("img.time");
-// image icon
+// Handle to Icon image
 const icon = document.querySelector(".icon");
 // Update city function
 const updateCity = async (city) => {
@@ -22,7 +22,7 @@ const updateUI = (data) => {
     // const CityDets = data.cityDetails;
     // const weather = data.weather;
     const { cityDetails, weather } = data;
-
+    // Update html
     details.innerHTML = 
       `<h5>${cityDetails.EnglishName}</h5>
       <div>${weather.WeatherText}</div>
@@ -34,7 +34,7 @@ const updateUI = (data) => {
       // Update the night / Day & icon images
       const iconSrc = `img/icons/${weather.WeatherIcon}.svg`;
       icon.firstElementChild.src = iconSrc;
-
+      // Change image according to day /night
       let timeSrc = null;
       if (weather.IsDayTime) {
           timeSrc = "img/day.svg";
@@ -43,17 +43,24 @@ const updateUI = (data) => {
           timeSrc = "img/night.svg";
       }
       time.src = timeSrc;
-    // w3-hide
+    // Remove w3-hide class
     if (card.classList.contains("w3-hide")) {
         card.classList.remove("w3-hide");
     }
 
 };
+// Actively listening to user submission
 cityForm.addEventListener("submit", (e) => {
+    // Prevent Browser default action when submitting
     e.preventDefault();
+    // Handle to form input field & remove spaces
     const city = cityForm.city.value.trim();
+    // Form clear
     cityForm.reset();
+    // Update city and get weather infromation
     updateCity(city)
       .then((data) => {updateUI(data);})
       .catch();
+    // Set local storage
+    localStorage.setItem("city", city);
 });
