@@ -8,15 +8,9 @@ const details = document.querySelector(".details");
 const time = document.querySelector("img.time");
 // Handle to Icon image
 const icon = document.querySelector(".icon");
-// Update city function
-const updateCity = async (city) => {
-    console.log(city);
-    const cityDetails = await getCity(city);
-    const weather = await getWeather(cityDetails.Key);
-    // return {cityDetails: cityDetails, weather: weather};
-    // Below is the object short hand notation
-    return {cityDetails, weather};
-};
+// Network Request object
+const request = new Forecast();
+
 const updateUI = (data) => {
     // Destructure properties of the object
     // const CityDets = data.cityDetails;
@@ -58,7 +52,7 @@ cityForm.addEventListener("submit", (e) => {
     // Form clear
     cityForm.reset();
     // Update city and get weather infromation
-    updateCity(city)
+    request.updateCity(city)
       .then((data) => {updateUI(data);})
       .catch();
     // Set local storage
@@ -68,7 +62,7 @@ cityForm.addEventListener("submit", (e) => {
 });
 // Get city name from the local storage if it has any
 if (localStorage.getItem("city")) {
-    updateCity(localStorage.getItem("city"))
+    request.updateCity(localStorage.getItem("city"))
     .then((data) => {updateUI(data)})
     .catch((err) => {console.log(err);});
 }
